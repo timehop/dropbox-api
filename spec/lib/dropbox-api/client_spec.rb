@@ -63,6 +63,11 @@ describe Dropbox::API::Client do
       result.should be_an_instance_of(Array)
     end
 
+    it "return a limited array of files and dirs" do
+      result = @client.ls(:file_limit => 1)
+      result.length.should == 1
+    end
+
   end
 
   describe "#mkdir" do
@@ -143,10 +148,10 @@ describe Dropbox::API::Client do
     it "copies a file from a copy_ref" do
       filename = "test/searchable-test-#{Dropbox::Spec.namespace}.txt"
       @client.upload filename, "Some file"
-      response = @client.search "searchable-test-#{Dropbox::Spec.namespace}", :path => 'test'      
+      response = @client.search "searchable-test-#{Dropbox::Spec.namespace}", :path => 'test'
       ref = response.first.copy_ref['copy_ref']
       @client.copy_from_copy_ref ref, "#{filename}.copied"
-      response = @client.search "searchable-test-#{Dropbox::Spec.namespace}.txt.copied", :path => 'test'   
+      response = @client.search "searchable-test-#{Dropbox::Spec.namespace}.txt.copied", :path => 'test'
       response.size.should == 1
       response.first.class.should == Dropbox::API::File
     end

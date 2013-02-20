@@ -23,8 +23,8 @@ module Dropbox
         Dropbox::API::Object.convert(data, self)
       end
 
-      def ls(path = '')
-        Dropbox::API::Dir.init({'path' => path}, self).ls
+      def ls(path = '', options = {})
+        Dropbox::API::Dir.init({'path' => path}, self).ls('', options)
       end
 
       def account
